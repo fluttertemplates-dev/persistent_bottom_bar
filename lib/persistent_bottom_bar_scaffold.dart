@@ -53,9 +53,20 @@ class _PersistentBottomBarScaffoldState
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedTab,
           onTap: (index) {
-            setState(() {
-              _selectedTab = index;
-            });
+            /// Check if the tab that the user is pressing is currently selected
+            if (index == _selectedTab) {
+              /// if you want to pop the current tab to its root then use
+              widget.items[index].navigatorkey?.currentState
+                  ?.popUntil((route) => route.isFirst);
+
+              /// if you want to pop the current tab to its last page
+              /// then use
+              // widget.items[index].navigatorkey?.currentState?.pop();
+            } else {
+              setState(() {
+                _selectedTab = index;
+              });
+            }
           },
           items: widget.items
               .map((item) => BottomNavigationBarItem(
